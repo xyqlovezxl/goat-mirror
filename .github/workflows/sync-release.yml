@@ -1,0 +1,42 @@
+name: Sync Goat Release
+on:
+  workflow_dispatch:
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to GHCR
+        run: echo "${{ secrets.GH_TOKEN }}" | docker login ghcr.io -u xyqlovezxl --password-stdin
+      - name: Pull and Save
+        run: |
+          set -e
+          IMAGES="
+          ghcr.io/xyqlovezxl/goat-busybox:latest
+          ghcr.io/xyqlovezxl/goat-kube-bench:latest
+          ghcr.io/xyqlovezxl/goat-hacker-container:latest
+          ghcr.io/xyqlovezxl/goat-k8s-goat-batch-check:latest
+          ghcr.io/xyqlovezxl/goat-k8s-goat-build-code:latest
+          ghcr.io/xyqlovezxl/goat-k8s-goat-cache-store:latest
+          ghcr.io/xyqlovezxl/goat-k8s-goat-health-check:latest
+          ghcr.io/xyqlovezxl/goat-k8s-goat-hidden-in-layers:latest
+          ghcr.io/xyqlovezxl/goat-k8s-goat-home:latest
+          ghcr.io/xyqlovezxl/goat-k8s-goat-hunger-check:latest
+          ghcr.io/xyqlovezxl/goat-k8s-goat-info-app:latest
+          ghcr.io/xyqlovezxl/goat-k8s-goat-internal-api:latest
+          ghcr.io/xyqlovezxl/goat-k8s-goat-metadata-db:latest
+          ghcr.io/xyqlovezxl/goat-k8s-goat-poor-registry:latest
+          ghcr.io/xyqlovezxl/goat-k8s-goat-system-monitor:latest
+          "
+          mkdir -p /tmp/imgs
+          for img in $IMAGES; do
+            name=$(echo "$img" | sed 's|.*/||; s|:latest$||')
+            echo ">>> $img"
+            docker pull "$img"
+            docker save "$img" -o "/tmp/imgs/$name.tar"
+            ls -lh "/tmp/imgs/$name.tar"
+          done
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: goat-images-v1
+          files: /tmp/imgs/*.tar
