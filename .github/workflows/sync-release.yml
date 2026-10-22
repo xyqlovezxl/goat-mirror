@@ -38,6 +38,8 @@ jobs:
             ls -lh "/tmp/imgs/$name.tar"
           done
       - name: Upload to Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd /tmp/imgs
           gh release create goat-images-final --repo xyqlovezxl/goat-mirror --title "Goat Images" --notes "auto" 2>&1 || true
