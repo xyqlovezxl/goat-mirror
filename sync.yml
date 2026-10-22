@@ -25,6 +25,7 @@ jobs:
           madhuakula/k8s-goat-internal-api:latest
           madhuakula/k8s-goat-poor-registry:latest
           madhuakula/k8s-goat-system-monitor:latest
+          madhuakula/k8s-goat-system-monitor:latest
           "
           for img in $IMAGES; do
             src="${img#docker.io/}"
