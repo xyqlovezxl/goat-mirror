@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Login to GHCR
-        run: echo "${{ secrets.GH_TOKEN }}" | docker login ghcr.io -u ${{ shturl.cc/hu }} --password-stdin
+        run: echo "${{ secrets.GH_TOKEN }}" | docker login ghcr.io -u xyqlovezxl --password-stdin
       - name: Pull and Push
         run: |
           set -e
@@ -23,8 +23,8 @@ jobs:
           madhuakula/k8s-goat-hunger-check:latest
           madhuakula/k8s-goat-info-app:latest
           madhuakula/k8s-goat-internal-api:latest
+          madhuakula/k8s-goat-metadata-db:latest
           madhuakula/k8s-goat-poor-registry:latest
-          madhuakula/k8s-goat-system-monitor:latest
           madhuakula/k8s-goat-system-monitor:latest
           "
           for img in $IMAGES; do
