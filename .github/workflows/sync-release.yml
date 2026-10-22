@@ -40,4 +40,4 @@ jobs:
       - name: Upload to Release
         run: |
           cd /tmp/imgs
-          gh release create goat-images-v1 *.tar --repo xyqlovezxl/goat-mirror --title "Goat Images v1" --notes "auto" || gh release upload goat-images-v1 *.tar --repo xyqlovezxl/goat-mirror
+          gh release create goat-images-v2 *.tar --repo xyqlovezxl/goat-mirror --title "Goat Images v1" --notes "auto" || gh release upload goat-images-v2 *.tar --repo xyqlovezxl/goat-mirror
