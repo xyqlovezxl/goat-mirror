@@ -40,4 +40,10 @@ jobs:
       - name: Upload to Release
         run: |
           cd /tmp/imgs
-          gh release create goat-images-v2 *.tar --repo xyqlovezxl/goat-mirror --title "Goat Images v1" --notes "auto" || gh release upload goat-images-v2 *.tar --repo xyqlovezxl/goat-mirror
+          gh release create goat-images-final --repo xyqlovezxl/goat-mirror --title "Goat Images" --notes "auto" 2>&1 || true
+          for f in *.tar; do
+            echo "=== 上传 $f ==="
+            gh release upload goat-images-final "$f" --repo xyqlovezxl/goat-mirror --clobber 2>&1 || echo "FAILED: $f"
+          done
+          echo "=== 全部上传完成 ==="
+          gh release view goat-images-final --repo xyqlovezxl/goat-mirror --json tagName,assets 2>&1 || true
